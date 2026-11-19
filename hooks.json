@@ -1,0 +1,42 @@
+{
+  "scope-gate": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ./scripts/pre-tool-scope.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "audit-trail": {
+    "enabled": true,
+    "PostToolUse": [
+      {
+        "matcher": "run_command|mcp_.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ./scripts/post-tool-audit.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "engagement-brief": {
+    "enabled": true,
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "node ./scripts/session-start.mjs",
+        "timeout": 10
+      }
+    ]
+  }
+}

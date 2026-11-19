@@ -1,0 +1,16 @@
+# Engagement material — never commit. A scope manifest lists a client's
+# assets and an authorization reference; it is confidential by default.
+/scope.yml
+/scope.json
+/scope-changes.md
+/samples/
+/analysis/
+/evidence/
+/poc/
+
+# The template is the one exception, and it is anchored under examples/.
+!/examples/scope.yml
+
+node_modules/
+.DS_Store
+*.log

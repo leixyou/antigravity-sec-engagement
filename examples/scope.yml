@@ -1,0 +1,39 @@
+# Copy to <workspace>/scope.yml, or to
+# ~/.config/sec-engagement/scopes/<repo-name>.yml for a reusable engagement.
+
+engagement: ACME-Q4-2026
+authorization_ref: SOW-2026-114
+window:
+  start: 2026-11-20
+  end: 2026-12-05
+
+in_scope:
+  - asset: 10.20.0.0/24
+    kind: cidr
+    techniques: [recon, web, ad]
+  - asset: app.example.internal
+    kind: host
+    techniques: [web, api]
+  - asset: "*.api.example.internal"
+    kind: host
+    techniques: [web]
+
+# Evaluated before in_scope. A match here is always a denial.
+out_of_scope:
+  - 10.20.0.250
+  - 10.20.0.251
+  - "*.hr.example.internal"
+
+forbidden_techniques:
+  - dos
+  - physical
+  - social_engineering
+  - data_exfiltration
+
+rate_limits:
+  default_rps: 5
+  max_concurrency: 8
+
+evidence:
+  retain_days: 90
+  redact_secrets: true

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "sec-engagement",
+  "displayName": "Security Engagement",
+  "version": "0.1.0",
+  "description": "Scope-gated security engineering for Antigravity: reverse engineering, exploit development, and authorized penetration testing with an auditable command trail.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Resolve the active engagement scope and plan recon against it",
+    "Triage this sample and locate its license check function",
+    "Write a proof-of-concept for this finding and log it to evidence"
+  ],
+  "author": {
+    "name": "leixyou",
+    "url": "https://github.com/leixyou"
+  },
+  "homepage": "https://github.com/leixyou/antigravity-sec-engagement",
+  "repository": "https://github.com/leixyou/antigravity-sec-engagement",
+  "license": "MIT",
+  "keywords": ["security", "reverse-engineering", "pentest", "exploit", "engagement"]
+}
