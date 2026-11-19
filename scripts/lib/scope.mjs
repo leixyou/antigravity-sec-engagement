@@ -4,12 +4,20 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, basename, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const CONFIG_DIR = join(homedir(), '.config', 'sec-engagement');
-export const DATA_DIR =
-  process.env.PLUGIN_DATA || join(homedir(), '.local', 'share', 'sec-engagement');
+const DEFAULT_DATA_DIR =
+  process.platform === 'win32'
+    ? join(homedir(), 'AppData', 'Local', 'sec-engagement')
+    : join(homedir(), '.local', 'share', 'sec-engagement');
+
+export const DATA_DIR = process.env.PLUGIN_DATA || DEFAULT_DATA_DIR;
+
+// fileURLToPath, not URL.pathname: on Windows the latter yields `/C:/...`,
+// which resolve() then turns into a nonsense path.
 export const PLUGIN_ROOT =
-  process.env.PLUGIN_ROOT || resolve(new URL('..', import.meta.url).pathname);
+  process.env.PLUGIN_ROOT || resolve(fileURLToPath(new URL('..', import.meta.url)));
 
 // ---------------------------------------------------------------- YAML subset
 // Deliberately small: maps, block lists, flow lists/maps, scalars, comments.

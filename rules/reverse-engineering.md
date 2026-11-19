@@ -54,3 +54,32 @@ codesign -dv --verbose=4 analysis/$SAMPLE/Sample.app
 ```
 
 Keep the untouched original for diffing the patched result.
+
+## Windows samples
+
+PE files behave differently enough to warrant their own tooling:
+
+```powershell
+Get-FileHash analysis\sample.exe -Algorithm SHA256
+certutil -hashfile analysis\sample.exe MD5
+dumpbin /headers analysis\sample.exe    # needs a Developer Command Prompt
+dumpbin /imports analysis\sample.exe
+dumpbin /exports analysis\sample.dll
+```
+
+- **Authenticode** — a modified PE invalidates the signature. Check the status
+  before and after: `Get-AuthenticodeSignature analysis\sample.exe`. Re-signing
+  needs a certificate you have; say so rather than silently shipping a broken
+  signature.
+- **ASLR/DEP flags** — from `dumpbin /headers` look for `Dynamic base` (ASLR)
+  and `NX compatible` (DEP) in the DLL characteristics.
+- **Entry point / RVA vs file offset** — PE tools report RVAs. Report both the
+  RVA and the file offset, and say which one your patch offset is.
+- **Strings** — `strings.exe` from Sysinternals, or
+  `Select-String -Encoding Byte` for UTF-16 blobs that ASCII `strings` misses.
+
+## Path separators in reports
+
+Windows targets appear in commands with backslashes. When quoting a command in
+a finding, quote it exactly as executed rather than normalising it — the
+evidence trail stores the literal string.

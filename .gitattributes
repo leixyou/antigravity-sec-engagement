@@ -1,0 +1,13 @@
+# Keep the plugin byte-identical across platforms. Antigravity replaces the
+# installed directory on update, so a CRLF checkout on Windows should still
+# match what everyone else runs.
+* text=auto eol=lf
+
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.svg   text eol=lf
+
+*.png   binary
+*.jpg   binary

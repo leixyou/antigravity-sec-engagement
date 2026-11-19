@@ -47,6 +47,80 @@ global once the plugin is enabled — no per-project copying.
 Installed layout is read-only at `~/.gemini/config/plugins/sec-engagement`;
 writable state lives in `${PLUGIN_DATA}`.
 
+## Windows
+
+### Prerequisite: Node.js 18+
+
+The hooks are Node scripts. Antigravity does not bundle a Node runtime for
+plugins, so **`node` must be on PATH** — otherwise every hook fails open and the
+plugin looks installed while enforcing nothing.
+
+```powershell
+node --version      # must be v18 or newer
+```
+
+If that fails, install Node.js LTS first.
+
+### Locate `agy`
+
+```powershell
+Get-Command agy
+Get-ChildItem "$env:USERPROFILE\.gemini\bin" -Filter agy*
+```
+
+Add it to PATH for the current session, or persist it for your user:
+
+```powershell
+$env:Path = "$env:USERPROFILE\.gemini\bin;$env:Path"
+
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  "$([Environment]::GetEnvironmentVariable('Path','User'));$env:USERPROFILE\.gemini\bin",
+  "User")
+```
+
+### Install
+
+```powershell
+agy plugin install https://github.com/leixyou/antigravity-sec-engagement
+agy plugin enable sec-engagement
+agy plugin list
+```
+
+Manual fallback, no CLI needed — copy the folder into the global plugin
+directory:
+
+```powershell
+git clone https://github.com/leixyou/antigravity-sec-engagement `
+  "$env:USERPROFILE\.gemini\config\plugins\sec-engagement"
+```
+
+Workspace-scoped instead, if you only want it in one project:
+`.agents\plugins\sec-engagement\` at the repository root.
+
+### Windows paths this plugin uses
+
+| What | Path |
+| :-- | :-- |
+| Installed plugin (read-only) | `%USERPROFILE%\.gemini\config\plugins\sec-engagement` |
+| Engagement manifests | `%USERPROFILE%\.config\sec-engagement\scopes\<repo>.yml` |
+| Evidence trail | `%USERPROFILE%\AppData\Local\sec-engagement\evidence\` |
+| Workspace manifest | `<repo>\scope.yml` |
+
+`PLUGIN_DATA` overrides the evidence location when Antigravity sets it; the path
+above is the fallback the hooks use when it is absent.
+
+### Verify on the target machine
+
+```powershell
+cd "$env:USERPROFILE\.gemini\config\plugins\sec-engagement"
+node scripts\selftest.mjs
+```
+
+`19 checks passed` means the scope engine and all three hooks work on that
+machine. Anything else means the gate is not running — fix it before trusting
+the evidence trail.
+
 ## Give an engagement a scope
 
 ```bash

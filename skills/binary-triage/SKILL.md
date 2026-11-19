@@ -39,6 +39,15 @@ nm -m sample.bin 2>/dev/null || nm -D sample.bin
 strings -a -n 6 sample.bin | head -200
 ```
 
+On Windows, from a Developer Command Prompt:
+
+```powershell
+dumpbin /headers sample.exe      # DLL characteristics: Dynamic base, NX compatible
+dumpbin /imports sample.exe
+dumpbin /exports sample.dll
+Get-AuthenticodeSignature sample.exe   # note the status before you touch it
+```
+
 ## Step 3 — what kind of program is this
 
 | Observation | Read |

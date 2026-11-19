@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ./scripts/pre-tool-scope.mjs",
+            "command": "node scripts/pre-tool-scope.mjs",
             "timeout": 10
           }
         ]
@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ./scripts/post-tool-audit.mjs",
+            "command": "node scripts/post-tool-audit.mjs",
             "timeout": 10
           }
         ]
@@ -34,7 +34,7 @@
     "SessionStart": [
       {
         "type": "command",
-        "command": "node ./scripts/session-start.mjs",
+        "command": "node scripts/session-start.mjs",
         "timeout": 10
       }
     ]

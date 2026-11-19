@@ -25,7 +25,7 @@ function main() {
     cwd,
     engagement: scope?.engagement ?? null,
     scope_source: source,
-    host: process.env.HOSTNAME || process.env.HOST || null,
+    host: process.env.COMPUTERNAME || process.env.HOSTNAME || process.env.HOST || null,
     user: process.env.USER || process.env.USERNAME || null,
   };
 
