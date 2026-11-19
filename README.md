@@ -81,22 +81,36 @@ $env:Path = "$env:USERPROFILE\.gemini\bin;$env:Path"
 
 ### Install
 
-```powershell
-agy plugin install https://github.com/leixyou/antigravity-sec-engagement
-agy plugin enable sec-engagement
-agy plugin list
-```
+The Antigravity desktop app ships **without** the `agy` CLI — it is a separate
+download. Manual directory placement is the supported installation path for the
+desktop app, and needs no command-line tooling beyond PowerShell.
 
-Manual fallback, no CLI needed — copy the folder into the global plugin
-directory:
+Run the included installer:
 
 ```powershell
-git clone https://github.com/leixyou/antigravity-sec-engagement `
-  "$env:USERPROFILE\.gemini\config\plugins\sec-engagement"
+powershell -ExecutionPolicy Bypass -File scripts\install-windows.ps1
 ```
+
+Or do the same thing by hand:
+
+```powershell
+$dest = "$env:USERPROFILE\.gemini\config\plugins\sec-engagement"
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.gemini\config\plugins" | Out-Null
+git clone --depth 1 https://github.com/leixyou/antigravity-sec-engagement $dest
+Test-Path "$dest\plugin.json"     # must print True
+```
+
+Then **restart Antigravity** and enable it under **Customizations › Installed**.
 
 Workspace-scoped instead, if you only want it in one project:
 `.agents\plugins\sec-engagement\` at the repository root.
+
+If you also installed the CLI, the equivalent is:
+
+```powershell
+agy plugin install https://github.com/leixyou/antigravity-sec-engagement
+agy plugin enable sec-engagement
+```
 
 ### Windows paths this plugin uses
 
