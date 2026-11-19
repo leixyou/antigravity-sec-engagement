@@ -16,8 +16,10 @@ export const DATA_DIR = process.env.PLUGIN_DATA || DEFAULT_DATA_DIR;
 
 // fileURLToPath, not URL.pathname: on Windows the latter yields `/C:/...`,
 // which resolve() then turns into a nonsense path.
+// This file lives at <plugin-root>/scripts/lib/scope.mjs, so the plugin root
+// is two levels up from here — not one.
 export const PLUGIN_ROOT =
-  process.env.PLUGIN_ROOT || resolve(fileURLToPath(new URL('..', import.meta.url)));
+  process.env.PLUGIN_ROOT || resolve(fileURLToPath(new URL('../..', import.meta.url)));
 
 // ---------------------------------------------------------------- YAML subset
 // Deliberately small: maps, block lists, flow lists/maps, scalars, comments.
